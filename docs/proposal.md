@@ -29,43 +29,52 @@ This project will primarily use JavaScript and the Math library.
 
 For matrix operations, I will create a `Matrix` class with the following methods:
 - `Matrix#constructor`: Accepts an array or array of arrays and returns a new matrix object.
-- `Matrix#add`: Accepts a number or another Matrix object. Adds the number as a scalar to each element in the matrix, or adds the two matrices depending on input type.
-- `Matrix#subtract`: Accepts a number or another Matrix object. Subtracts the number as a scalar to each element in the matrix, or subtracts the two matrices depending on input type. 
+- `Matrix#add`: Accepts a number or another Matrix object. Adds the number as a scalar to each element in the matrix, or adds the two matrices depending on input type. Returns a new matrix object.
+- `Matrix#subtract`: Accepts a number or another Matrix object. Subtracts the number as a scalar to each element in the matrix, or subtracts the two matrices depending on input type. Returns a new matrix object.
+- `Matrix#multiply`: Accepts another matrix object. Verifies dimensionality and returns the product of the matrices as a new matrix object.
+- `Matrix#dimensions`: Returns the dimensions of the matrix as an array ([rows, cols]).
 
+For Linear regression, I will create a `LinearRegressor` class with the following methods:
+-`LinearRegressor#train`: Accepts an array of JavaScript objects, an array of parameter attributes (attributes of the object), and the target attribute. Performs regression via gradient descent, and returns an object with keys for theta values for the parameters, and an `evaluate` function which does the following:
+-`evaluate`: Accepts an object with the same attributes that were used to train the model, and returns the result of running that object's attribute values through the created model.
 
+For Logistic regression, I will create a `LogisticRegressor` class with the following methods:
+-`LogisticRegressor#train`: Accepts an array of JavaScript objects, an array of parameter attributes (attributes of the object), and the target attribute. Performs regression via gradient descent, and returns an object with keys for theta values for the parameters, and an `evaluate` function which does the following:
+-`evaluate`: Accepts an object with the same attributes that were used to train the model, and returns the result of running that object's attribute values through the created model.
+
+For k-means clustering, I will create a `Clusterer` class with the following methods:
+-`Cluster#evaluate`: Accepts an array of JavaScript objects, 2 attributes, and number for `numClusters`. Performs iterative k-means clustering, and returns an array of `numClusters` arrays that contain the objects that were passed in broken down into the specified number of clusters.
 
 ### Implementation Timeline
 
-**Day 1**: Setup all necessary Node modules, including getting webpack up and running. Create `webpack.config.js` as well as `package.json`.  Write a basic entry file and the bare bones of all 3 scripts outlined above.  Goals for the day:
+**Day 1**: Figure out how to get an npm library up and running
+- [ ] Set up skeleton for npm library
+- [ ] Create `Matrix` class
 
-- [x] Get a green bundle with `webpack`
-- [x] Render a canvas with moving predators and pray.
+**Day 2**: Finish `Matrix` class
 
-**Day 2**: Handle collision and dying events in the simulation. Set up recording population / average speed data.
+- [ ] Implement all methods for `Matrix` class
 
-- [x] Complete the `predator.js` and `prey.js` classes, including inheritance models and AI for movement
-- [x] Record data at every step (log it in console for now)
+**Day 3**: Implement linear regression
 
-**Day 3**: Live updating graphs.
+- [ ] Implement linear regression class
+- [ ] Test to ensure accuracy
 
-- [x] Learn highcharts API
-- [x] Render graphs on the page with live updating population and average speed information.
-- [x] Fine tune simulation initialization
+**Day 4**: Implement logistic regression
 
+- [ ] Implement logistic regression class
+- [ ] Test to ensure accuracy
 
-**Day 4**: Add simulation controls.  Style the frontend, and add an introdution:
+**Day 5**: Implement k-means clustering
 
-- [x] Create controls for simulation speed, mutation rate, and generation time
-- [x] Syle objects
-- [x] Add an information modal.
+- [ ] Implement k-means clustering class
+- [ ] Test to ensure accuracy
 
 
 ### Bonus features
 
-There are many directions this cellular automata engine could eventually go.  Some anticipated updates are:
+Some anticipated future extensions include the following:
 
-- [ ] Animated introduction
-- [x] More simulation controls
-- [ ] Evolving predators
-
-[wireframes]: ./evolutionjs.png
+- [ ] More matrix operations (e.g. determinants, eigen values )
+- [ ] More ML algorithms
+- [ ] multi-dimensional k-clustering
