@@ -12,7 +12,7 @@ I see a few potential uses for the library:
 
 The following are the core pieces of functionality:
 
-- [ ] Library that allows users to create a Matrix object from an array of arrays and do basic matrix operations on them (adding, subtracting, multiplying, and doing   matrices, adding a scalar to a matrix, subtraction, multiplication, and element-wise opeartions)
+- [X] Library that allows users to create a Matrix object from an array of arrays and do basic matrix operations on them (adding, subtracting, multiplying, adding a scalar to a matrix, and element-wise operations)
 - [ ] Linear regression that takes in an array of objects, an array of parameter attributes, and a target attribute
 - [ ] Logistic regression that takes in an array of objects, an array of parameter attributes, and a target attribute
 - [ ] K-means clustering that takes in an array of objects, and 2 parameter attributes as arguments
@@ -48,12 +48,12 @@ For k-means clustering, I will create a `Clusterer` class with the following met
 ### Implementation Timeline
 
 **Day 1**: Figure out how to get an npm library up and running
-- [ ] Set up skeleton for npm library
-- [ ] Create `Matrix` class
+- [x] Set up skeleton for npm library
+- [x] Create matrix operations file
 
-**Day 2**: Finish `Matrix` class
+**Day 2**: Finish matrix operations class
 
-- [ ] Implement all methods for `Matrix` class
+- [x] Implement all methods for matrix operation class
 
 **Day 3**: Implement linear regression
 

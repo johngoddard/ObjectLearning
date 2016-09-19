@@ -1,0 +1,22 @@
+{
+  "name": "objlearning",
+  "version": "1.0.1",
+  "description": "Package for matrix operations and lightweight machine learning",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johngoddard/ObjLearner.git"
+  },
+  "author": "John Goddard <johngoddard243@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johngoddard/ObjLearner/issues"
+  },
+  "homepage": "https://github.com/johngoddard/ObjLearner#readme"
+}
