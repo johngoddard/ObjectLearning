@@ -1,13 +1,15 @@
 {
   "name": "objlearning",
-  "version": "1.0.1",
-  "description": "Package for matrix operations and lightweight machine learning",
-  "main": "index.js",
+  "version": "1.0.2",
+  "description": "**IN DEVELOPMENT** Package for matrix operations and lightweight machine learning",
+  "main": "./distribution/index.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "build": "babel src --presets babel-preset-es2015 --out-dir distribution",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/johngoddard/ObjLearner/issues"
   },
-  "homepage": "https://github.com/johngoddard/ObjLearner#readme"
+  "homepage": "https://github.com/johngoddard/ObjLearner#readme",
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "jest": "^15.1.1"
+  },
+  "dependencies": {
+    "matrixops": "^1.1.3"
+  }
 }

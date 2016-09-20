@@ -1,1 +1,1 @@
-
+let operator = require('matrixops');
