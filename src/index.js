@@ -1,5 +1,10 @@
-let LinearRegressor = require('./util/linear_regression.js');
+let Regressor = require('./util/logistic_regression.js');
 
 module.exports = {
-  trainLinearReg: LinearRegressor.linearRegress
+  trainLinearReg: (objects, params, target, options) => {
+    return Regressor.regression(objects, params, target, 'linear', options);
+  },
+  trainLogisticReg: (objects, params, target, options) => {
+    return Regressor.regression(objects, params, target, 'logistic', options);
+  }
 };

@@ -15,13 +15,13 @@ const linearRegress = (objects, params, target, options) => {
   let i = 0;
 
   while( i <= opts.iter ){
-    theta = regressionHelpers.gradientDescent(X, y, theta, opts.alpha);
+    theta = gradientDescent(X, y, theta, opts.alpha);
     i++;
   }
 
   let evalObject = _makeEvalFunction(theta, normalizedData, params);
   let testObjects = _makeTestFunction(theta, normalizedData, params, target);
-  let cost = regressionHelpers.computeCost(X, y, theta);
+  let cost = computeCost(X, y, theta);
 
   return {
     theta,
@@ -29,6 +29,18 @@ const linearRegress = (objects, params, target, options) => {
     testObjects,
     cost
   };
+};
+
+const gradientDescent = (X, y, theta, alpha) => {
+  let h = MatrixOps.multiply(X, theta);
+  let diff = MatrixOps.subtract(h, y);
+
+  let Xtrans = MatrixOps.transpose(X);
+  let tau = MatrixOps.multiply(Xtrans, diff);
+
+  let gradientStep = MatrixOps.multiply(tau, (alpha / y.length));
+
+  return MatrixOps.subtract(theta, gradientStep);
 };
 
 
@@ -40,8 +52,17 @@ const _makeTestFunction = (theta, normalizedData, params, target) => {
 
     const y = regressionHelpers.extractParams(testObjs, target);
 
-    return regressionHelpers.computeCost(X, y, theta);
+    return computeCost(X, y, theta);
   };
+};
+
+const computeCost = (X, y, theta) => {
+  let h = MatrixOps.multiply(X, theta);
+  let diff = MatrixOps.subtract(h, y);
+
+  diff = MatrixOps.elementTransform(diff, el => Math.pow(el, 2));
+
+  return (diff.reduce((pre, curr) => pre + curr[0], 0))/(2 * y.length);
 };
 
 
@@ -65,7 +86,7 @@ const _extractAttrFromObject = (object, normalizedData, params) => {
       paramRow.push(normalizedFeature);
     } else{
       throw 'object does not have the necessary paramaters';
-    }
+    };
   });
 
   return paramRow;
@@ -74,5 +95,7 @@ const _extractAttrFromObject = (object, normalizedData, params) => {
 
 
 module.exports = {
-  linearRegress
+  linearRegress,
+  computeCost,
+  gradientDescent
 };

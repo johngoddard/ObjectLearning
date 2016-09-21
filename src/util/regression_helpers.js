@@ -1,6 +1,8 @@
 let MatrixOps = require('matrixops');
 
-const extractParams = (objects, params) => {
+const LOG_TARGETS = [true, false, 1, 0, '1', '0'];
+
+const extractParams = (objects, params, logisticTarget) => {
 
   if(!(params instanceof Array)){
     params = [params];
@@ -12,7 +14,13 @@ const extractParams = (objects, params) => {
     let objParams = [];
     params.forEach(param => {
       if(obj.hasOwnProperty(param)){
-        objParams.push(obj[param]);
+        if(logisticTarget && !LOG_TARGETS.includes(obj[param])){
+          throw 'Not a valid target value for logistic regression';
+        }else if(logisticTarget){
+          objParams.push(_logisticVal(obj[param]));
+        } else{
+          objParams.push(obj[param]);
+        }
       } else {
         throw 'All objects must have specified paramaters';
       }
@@ -22,6 +30,14 @@ const extractParams = (objects, params) => {
   });
 
   return returnParams;
+};
+
+const _logisticVal = val => {
+  if(val === true || val === 1 || val === '1'){
+    return 1;
+  } else {
+    return 0;
+  }
 };
 
 const calculateMean = (arr) => {
@@ -73,14 +89,6 @@ const getXFromParams = (objects, params) => {
 }
 
 
-const computeCost = (X, y, theta) => {
-  let h = MatrixOps.multiply(X, theta);
-  let diff = MatrixOps.subtract(h, y);
-
-  diff = MatrixOps.elementTransform(diff, el => Math.pow(el, 2));
-
-  return (diff.reduce((pre, curr) => pre + curr[0], 0))/(2 * y.length);
-};
 
 const normalizeTestObjs = (testObjs, normalizedData) => {
   let newObjs = [];
@@ -97,17 +105,6 @@ const normalizeTestObjs = (testObjs, normalizedData) => {
   return newObjs;
 };
 
-const gradientDescent = (X, y, theta, alpha) => {
-  let h = MatrixOps.multiply(X, theta);
-  let diff = MatrixOps.subtract(h, y);
-
-  let Xtrans = MatrixOps.transpose(X);
-  let tau = MatrixOps.multiply(Xtrans, diff);
-
-  let gradientStep = MatrixOps.multiply(tau, (alpha / y.length));
-
-  return MatrixOps.subtract(theta, gradientStep);
-};
 
 module.exports = {
   extractParams,
@@ -115,8 +112,6 @@ module.exports = {
   calculateSTD,
   addOnes,
   getXFromParams,
-  computeCost,
   normalizeFeatures,
-  normalizeTestObjs,
-  gradientDescent
+  normalizeTestObjs
 };

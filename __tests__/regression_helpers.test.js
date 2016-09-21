@@ -39,16 +39,3 @@ test('add ones to array', () => {
 test('normalizes features', () => {
   expect(helpers.normalizeFeatures([[1,2], [3,4]]).normalized).toEqual([[1,-1,-1],[1,1,1]]);
 });
-
-test('computes cost when cost is 0', () => {
-  expect(helpers.computeCost([[1,2],[3,4]], [[3],[7]], [[1],[1]])).toEqual(0);
-});
-
-test('computes cost when cost is not 0', () => {
-  expect(helpers.computeCost([[1,2],[3,4]], [[5],[11]], [[1],[1]])).toEqual(5);
-});
-
-test('gradient descent for small example', () => {
-  let gradient = helpers.gradientDescent([[1,2],[3,4]], [[5],[11]], [[1],[1]], .1);
-  expect(gradient.map(el => [el[0].toFixed(4)])).toEqual([[(34/20).toFixed(4)], [(2).toFixed(4)]]);
-});
