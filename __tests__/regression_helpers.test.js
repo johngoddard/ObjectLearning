@@ -1,4 +1,4 @@
-let helpers = require('../src/util/regression_helpers.js');
+let helpers = require('../src/regression/regression_helpers.js');
 let Cat = require('../test_utils/cats.js');
 
 let cats = [new Cat(1, 10, 100), new Cat(2, 5, 50)];

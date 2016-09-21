@@ -1,4 +1,4 @@
-let regressor = require('../src/util/logistic_regression.js');
+let regressor = require('../src/regression/regression.js');
 let Cat = require('../test_utils/cats.js');
 
 const Student = require('../test_utils/students.js');
@@ -68,6 +68,11 @@ test('Linear regression test function works for multi dimensional regressions', 
   let regressedInfo = regressor.regression(cats2, ['height', 'weight'], 'fluffiness', 'linear');
   let testDiff = regressedInfo.testObjects([new Cat(4, 5, 13), new Cat(6, 7, 21)]);
   expect(Math.round(testDiff * 100) / 100).toEqual(.50);
+});
+
+test('computes costs correctly', () => {
+  let cost = regressor.computeLogisticCost([[1,2],[3,4]], [[0],[0]], [[0],[0]]);
+  expect(Math.round(cost * 100) / 100).toEqual(.69);
 });
 
 test("Logistic regression eval function predicts correctly for 1 dimensional regression - high", () => {

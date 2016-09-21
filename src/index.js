@@ -1,4 +1,4 @@
-let Regressor = require('./util/logistic_regression.js');
+let Regressor = require('./regression/regression.js');
 
 module.exports = {
   trainLinearReg: (objects, params, target, options) => {
