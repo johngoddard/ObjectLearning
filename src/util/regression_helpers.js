@@ -27,7 +27,7 @@ const extractParams = (objects, params) => {
 const calculateMean = (arr) => {
   let sum = arr.reduce((pre, curr) => pre + curr);
   return sum / arr.length;
-}
+};
 
 const calculateSTD = (arr, mean) => {
   let sumDiff = arr.reduce((pre, curr) => {
@@ -97,6 +97,18 @@ const normalizeTestObjs = (testObjs, normalizedData) => {
   return newObjs;
 };
 
+const gradientDescent = (X, y, theta, alpha) => {
+  let h = MatrixOps.multiply(X, theta);
+  let diff = MatrixOps.subtract(h, y);
+
+  let Xtrans = MatrixOps.transpose(X);
+  let tau = MatrixOps.multiply(Xtrans, diff);
+
+  let gradientStep = MatrixOps.multiply(tau, (alpha / y.length));
+
+  return MatrixOps.subtract(theta, gradientStep);
+};
+
 module.exports = {
   extractParams,
   calculateMean,
@@ -105,5 +117,6 @@ module.exports = {
   getXFromParams,
   computeCost,
   normalizeFeatures,
-  normalizeTestObjs
+  normalizeTestObjs,
+  gradientDescent
 };

@@ -1,12 +1,9 @@
 let regressionHelpers = require('./regression_helpers.js');
 let MatrixOps = require('matrixops');
 
-let Cat = require('../test_utils/cats.js');
-let cats = [new Cat(1, 10, 2), new Cat(5, 9, 10), new Cat(2, 10, 4), new Cat(3, 9, 6) ];
-
 const linearRegress = (objects, params, target, options) => {
 
-  let defaultOpts = {alpha: .03, iter: 1000};
+  let defaultOpts = {alpha: .01, iter: 1000};
   let opts = Object.assign({}, defaultOpts, options);
 
   let normalizedData = regressionHelpers.getXFromParams(objects, params);
@@ -18,26 +15,27 @@ const linearRegress = (objects, params, target, options) => {
   let i = 0;
 
   while( i <= opts.iter ){
-    theta = gradientDescent(X, y, theta, opts.alpha);
+    theta = regressionHelpers.gradientDescent(X, y, theta, opts.alpha);
     i++;
-    // console.log(regressionHelpers.computeCost(X, y, theta));
   }
 
   let evalObject = _makeEvalFunction(theta, normalizedData, params);
   let testObjects = _makeTestFunction(theta, normalizedData, params, target);
+  let cost = regressionHelpers.computeCost(X, y, theta);
 
   return {
     theta,
     evalObject,
-    testObjects
+    testObjects,
+    cost
   };
 };
 
 
-const _makeTestFunction = (normalizedData, theta, params, target) => {
+const _makeTestFunction = (theta, normalizedData, params, target) => {
   return testObjs => {
     let X = regressionHelpers.extractParams(testObjs, params);
-    X = regressionHelpers.normalizeTestObjs(testObjs, normalizedData);
+    X = regressionHelpers.normalizeTestObjs(X, normalizedData);
     X = regressionHelpers.addOnes(X);
 
     const y = regressionHelpers.extractParams(testObjs, target);
@@ -74,21 +72,7 @@ const _extractAttrFromObject = (object, normalizedData, params) => {
 };
 
 
-const gradientDescent = (X, y, theta, alpha) => {
-  let h = MatrixOps.multiply(X, theta);
-  let diff = MatrixOps.subtract(h, y);
-
-
-
-  let Xtrans = MatrixOps.transpose(X);
-  let tau = MatrixOps.multiply(Xtrans, diff);
-
-  let gradientStep = MatrixOps.multiply(tau, (alpha / y.length));
-
-  return MatrixOps.subtract(theta, gradientStep);
-};
 
 module.exports = {
-  gradientDescent,
   linearRegress
 };
