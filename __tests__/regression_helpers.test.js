@@ -19,3 +19,31 @@ test('extracts target param from objects', () => {
 test('extracts target param from class objects', () => {
   expect(helpers.extractParams(cats, 'fluffiness')).toEqual([[100],[50]]);
 });
+
+test('calculateMean', () => {
+  expect(helpers.calculateMean([1,2,3])).toBe(2);
+});
+
+test('calculateSTD', () => {
+  expect(helpers.calculateSTD([1,2,3], 2)).toBe(Math.sqrt(2/3));
+});
+
+test('calculateSTD', () => {
+  expect(helpers.calculateSTD([2,4], 3)).toBe(1);
+});
+
+test('add ones to array', () => {
+  expect(helpers.addOnes([[1,2],[3,4]])).toEqual([[1,1,2],[1,3,4]]);
+})
+
+test('normalizes features', () => {
+  expect(helpers.normalizeFeatures([[1,2], [3,4]]).normalized).toEqual([[1,-1,-1],[1,1,1]]);
+});
+
+test('computes cost when cost is 0', () => {
+  expect(helpers.computeCost([[1,2],[3,4]], [[3],[7]], [[1],[1]])).toEqual(0);
+});
+
+test('computes cost when cost is not 0', () => {
+  expect(helpers.computeCost([[1,2],[3,4]], [[5],[11]], [[1],[1]])).toEqual(5);
+});
