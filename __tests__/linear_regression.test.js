@@ -1,5 +1,5 @@
 let regressor = require('../src/util/linear_regression.js');
-let Cat = require('../src/test_utils/cats.js');
+let Cat = require('../test_utils/cats.js');
 
 let cats1 = [
   new Cat(1, 10, 2),

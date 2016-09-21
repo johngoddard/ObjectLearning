@@ -1,5 +1,5 @@
 let helpers = require('../src/util/regression_helpers.js');
-let Cat = require('../src/test_utils/cats.js');
+let Cat = require('../test_utils/cats.js');
 
 let cats = [new Cat(1, 10, 100), new Cat(2, 5, 50)];
 let objs = [{height: 1, weight: 10, bmi: 10}, {height: 2, weight: 5, bmi: 2.5}];
