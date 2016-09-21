@@ -2,33 +2,26 @@ const MatrixOps = require('matrixops');
 const regressionHelpers = require('./regression_helpers.js');
 
 const regression = (objects, params, target, type, options) => {
+  const regVariables = _getRegVariables(type);
 
-  let defaultAlpha = type === 'linear' ? .01 : .1;
-  let defaultOpts = {alpha: defaultAlpha, iter: 1000};
+  let defaultOpts = {alpha: regVariables.defaultAlpha, iter: 1000};
   let opts = Object.assign({}, defaultOpts, options);
-
   let normalizedData = regressionHelpers.getXFromParams(objects, params);
 
   const X = normalizedData.normalized;
-
-  let logTarg = type === 'linear' ? false : true;
-  const y = regressionHelpers.extractParams(objects, target, logTarg);
+  const y = regressionHelpers.extractParams(objects, target, regVariables.logTarg);
   let theta = MatrixOps.zeroes(X[0].length);
 
   let i = 0;
 
-  let stepFunction = type === 'linear' ? gradientDescentLinear : gradientDescentLogistic;
-  let costFunction = type ==='linear' ? computeLinearCost : computeLogisticCost;
-
   while( i <= opts.iter ){
-    theta = stepFunction(X, y, theta, opts.alpha);
+    theta = regVariables.stepFunction(X, y, theta, opts.alpha);
     i++;
   }
 
-
   let evalObject = _makeEvalFunction(theta, normalizedData, params, type);
-  let testObjects = _makeTestFunction(theta, normalizedData, params, target, costFunction);
-  let cost = costFunction(X, y, theta);
+  let testObjects = _makeTestFunction(theta, normalizedData, params, target, regVariables.costFunction);
+  let cost = regVariables.costFunction(X, y, theta);
 
   return {
     theta,
@@ -36,6 +29,24 @@ const regression = (objects, params, target, type, options) => {
     testObjects,
     cost
   };
+};
+
+const _getRegVariables = type => {
+  if(type === 'linear'){
+    return {
+      stepFunction: gradientDescentLinear,
+      costFunction: computeLinearCost,
+      logTarg: false,
+      defaultAlpha: .01
+    };
+  } else {
+    return {
+      stepFunction: gradientDescentLogistic,
+      costFunction: computeLogisticCost,
+      logTarg: true,
+      defaultAlpha: .1
+    };
+  }
 };
 
 const gradientDescentLinear = (X, y, theta, alpha) => {
@@ -73,16 +84,16 @@ const _makeEvalFunction = (theta, normalizedData, params, type) => {
 
 const computeLogisticCost = (X, y, theta) => {
   let h = MatrixOps.multiply(X, theta);
-  h = MatrixOps.elementTransform(h, el => _sigmoid(el))
+  h = MatrixOps.elementTransform(h, el => _sigmoid(el));
   let yTrans = MatrixOps.transpose(y)[0];
   let hTrans = MatrixOps.transpose(h)[0];
 
-  costs = hTrans.map((predictedVal, idx) => {
+  let costs = hTrans.map((predictedVal, idx) => {
     return (-yTrans[idx]*Math.log(hTrans[idx]) - (1 - yTrans[idx])*Math.log(1 - hTrans[idx]));
   });
 
   return (1/y.length)*costs.reduce((pre, curr) => pre + curr, 0);
-}
+};
 
 const _sigmoid = z => {
   return (1/(1 + Math.exp(-z)));
@@ -108,7 +119,7 @@ const gradientDescentLogistic = (X, y, theta, alpha, type) => {
 
   let gradientStep = MatrixOps.multiply(tau, (alpha / y.length));
   return MatrixOps.subtract(theta, gradientStep);
-}
+};
 
 const _extractAttrFromObject = (object, normalizedData, params) => {
   if(!(params instanceof Array)){

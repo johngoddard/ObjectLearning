@@ -1,7 +1,12 @@
 'use strict';
 
-var LinearRegressor = require('./util/linear_regression.js');
+var Regressor = require('./regression/regression.js');
 
 module.exports = {
-  trainLinearReg: LinearRegressor.linearRegress
+  trainLinearReg: function trainLinearReg(objects, params, target, options) {
+    return Regressor.regression(objects, params, target, 'linear', options);
+  },
+  trainLogisticReg: function trainLogisticReg(objects, params, target, options) {
+    return Regressor.regression(objects, params, target, 'logistic', options);
+  }
 };

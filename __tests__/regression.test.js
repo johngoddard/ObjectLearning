@@ -10,7 +10,7 @@ const students = [
   new Student(900, 2.4, false),
   new Student(850, 2.6, true),
   new Student(950, 2.7, true),
-  new Student(200, 1, false),
+  new Student(200, 1.0, false),
   new Student(1000, 3.0, true),
   new Student(1040, 2.6, true),
   new Student(760, 2.3, false),
@@ -78,23 +78,29 @@ test('computes costs correctly', () => {
 test("Logistic regression eval function predicts correctly for 1 dimensional regression - high", () => {
   let regressedInfo = regressor.regression(students, ['SAT'], 'accepted', 'logistic');
   let predictedVal = regressedInfo.evalObject(new Student(1500, 3.8, false));
-  expect(Math.round(predictedVal * 100) / 100 > .95).toBe(true);
+  expect(predictedVal > .95).toBe(true);
 });
 
 test("Logistic regression eval function predicts correctly for 1 dimensional regression - low", () => {
   let regressedInfo = regressor.regression(students, ['SAT'], 'accepted', 'logistic');
   let predictedVal = regressedInfo.evalObject(new Student(100, 3.8, false));
-  expect(Math.round(predictedVal * 100) / 100 < .05).toBe(true);
+  expect(predictedVal < .05).toBe(true);
 });
 
 test("Logistic regression eval function predicts correctly for multi dimensional regression - high", () => {
   let regressedInfo = regressor.regression(students, ['SAT'], 'accepted', 'logistic');
   let predictedVal = regressedInfo.evalObject(new Student(1500, 3.8, false));
-  expect(Math.round(predictedVal * 100) / 100 > .95).toBe(true);
+  expect(predictedVal > .95).toBe(true);
 });
 
 test("Logistic regression eval function predicts correctly for multi dimensional regression - low", () => {
   let regressedInfo = regressor.regression(students, ['SAT', 'GPA'], 'accepted', 'logistic');
   let predictedVal = regressedInfo.evalObject(new Student(200, 1.2, false));
-  expect(Math.round(predictedVal * 100) / 100 < .05).toBe(true);
+  expect(predictedVal < .05).toBe(true);
+});
+
+test("Logistic regression eval function predicts correctly for multi dimensional regression - mid", () => {
+  let regressedInfo = regressor.regression(students, ['SAT', 'GPA'], 'accepted', 'logistic');
+  let predictedVal = regressedInfo.evalObject(new Student(860, 2.5, false));
+  expect((predictedVal > .4 && predictedVal < .6)).toBe(true);
 });
