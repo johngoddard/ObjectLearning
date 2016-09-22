@@ -75,7 +75,7 @@ test('#computeMeans computes the means for each centroid correctly', () => {
 });
 
 test('#kclustering correctly clusters objects in 2 dimensions', () => {
-  let clusteredInfo = clusterer.kclustering(students, ['SAT', 'GPA'], {iter: 100, centroids: 3});
+  let clusteredInfo = clusterer.kclustering(students, ['SAT', 'GPA'], {maxIter: 100, centroids: 3});
 
   expect(clusteredInfo.groups[0].objects.length).toBe(3);
   expect(clusteredInfo.groups[1].objects.length).toBe(8);
@@ -83,7 +83,7 @@ test('#kclustering correctly clusters objects in 2 dimensions', () => {
 });
 
 test('#kclustering places new objects into the correct group', () => {
-  let clusteredInfo = clusterer.kclustering(students, ['SAT', 'GPA'], {iter: 100, centroids: 3});
+  let clusteredInfo = clusterer.kclustering(students, ['SAT', 'GPA'], {maxIter: 100, centroids: 3});
   let newStuLow = new Student(200, 1.4, false);
   let newStuHigh = new Student(1400, 3.7, true);
 

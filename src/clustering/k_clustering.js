@@ -4,20 +4,25 @@ const regressionHelpers = require('../regression/regression_helpers.js');
 
 const kclustering = (objects, params, opts) => {
 
-  const defaultOpts = {iter: 100, centroids: 3};
+  const defaultOpts = {maxIter: 100, centroids: 3};
   let options = Object.assign({}, defaultOpts, opts);
 
   let normalizedInfo = regressionHelpers.getXFromParams(objects, params, false);
   let X = normalizedInfo.normalized;
 
-  let centroids = _initializeCentroids(objects, options.centroids);
+  let centroids = _initializeCentroids(X, options.centroids);
   let centMap;
 
   let i = 0;
 
-  while(i < options.iter){
+  while(i < options.maxIter){
     centMap = findClosestCentroids(X, centroids);
-    centroids = computeMeans(X, centMap, centroids);
+    let newCentroids = computeMeans(X, centMap, centroids);
+
+    if(_compareCentroids(centroids, newCentroids)){
+      break;
+    }
+    centroids = newCentroids;
     i++;
   }
 
@@ -46,7 +51,7 @@ function _makePlaceObj(normalizedInfo, centroidMap, params){
 
     Object.keys(centroidMap).forEach(id => {
       let cent = params.map(param => {
-        return centroidMap[id].centroid[param];
+        return centroidMap[id].groupAvgs[param];
       });
 
       let centNorm = cent.map((attr, idx) => {
@@ -86,7 +91,7 @@ const mapObjectsToCentroid = (centroidMap, objects, centroids, params) => {
 
   let finalMap = {};
   for(let i = 0; i < sorted.length; i++){
-    finalMap[i] = {centroid: centroidObjectMap[i].centroid, objects: centroidObjectMap[i].objects};
+    finalMap[i] = {groupAvgs: centroidObjectMap[i].centroid, objects: centroidObjectMap[i].objects};
   }
 
   return finalMap;
@@ -173,7 +178,7 @@ const findClosestCentroids = (X, centroids) => {
 };
 
 
-const _initializeCentroids = (X, numCentroids) => {
+const _initializeCentroids = (X, numCentroids, params) => {
   if(numCentroids > X.length){
     throw 'you cannot have more centroids than data points';
   }
@@ -187,6 +192,19 @@ const _initializeCentroids = (X, numCentroids) => {
 
   return centroids;
 };
+
+function _compareCentroids(oldCents, newCents){
+  let same = true;
+  oldCents.forEach((row, rowIdx) => {
+    row.forEach((el, colIdx) => {
+      if(el !== newCents[rowIdx][colIdx]){
+        same = false;
+      }
+    });
+  });
+
+  return same;
+}
 
 
 module.exports = {
