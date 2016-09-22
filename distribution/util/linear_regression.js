@@ -11,6 +11,9 @@ var linearRegress = function linearRegress(objects, params, target, options) {
   var normalizedData = regressionHelpers.getXFromParams(objects, params);
 
   var X = normalizedData.normalized;
+
+  console.log(X);
+  
   var y = regressionHelpers.extractParams(objects, target);
   var theta = MatrixOps.zeroes(X[0].length);
 

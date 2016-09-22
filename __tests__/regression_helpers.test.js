@@ -34,8 +34,12 @@ test('calculateSTD', () => {
 
 test('add ones to array', () => {
   expect(helpers.addOnes([[1,2],[3,4]])).toEqual([[1,1,2],[1,3,4]]);
-})
+});
 
-test('normalizes features', () => {
-  expect(helpers.normalizeFeatures([[1,2], [3,4]]).normalized).toEqual([[1,-1,-1],[1,1,1]]);
+test('normalizes features and adds ones when specified', () => {
+  expect(helpers.normalizeFeatures([[1,2], [3,4]], false).normalized).toEqual([[-1,-1],[1,1]]);
+});
+
+test('normalizes features and adds ones when specified', () => {
+  expect(helpers.normalizeFeatures([[1,2], [3,4]], true).normalized).toEqual([[1,-1,-1],[1,1,1]]);
 });

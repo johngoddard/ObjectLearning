@@ -51,13 +51,13 @@ const calculateSTD = (arr, mean) => {
   }, 0);
 
   return Math.sqrt(sumDiff/arr.length);
-};
+}
 
 const addOnes = arr => {
   return arr.map(row => [1, ...row]);
-};
+}
 
-const normalizeFeatures = (params, isReg) => {
+const normalizeFeatures = params => {
   let transpose = MatrixOps.transpose(params);
 
   let means = transpose.map(row => {
@@ -80,16 +80,12 @@ const normalizeFeatures = (params, isReg) => {
     return newRow;
   });
 
-  if(isReg){
-    return {means, stdDevs, normalized: addOnes(normalized)};
-  } else{
-    return { means, stdDevs, normalized: normalized };
-  }
+  return {means, stdDevs, normalized: addOnes(normalized)};
 };
 
-const getXFromParams = (objects, params, isReg) => {
+const getXFromParams = (objects, params) => {
   let X = extractParams(objects, params);
-  return normalizeFeatures(X, isReg);
+  return normalizeFeatures(X);
 }
 
 
