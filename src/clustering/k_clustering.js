@@ -4,7 +4,7 @@ const regressionHelpers = require('../regression/regression_helpers.js');
 
 const kclustering = (objects, params, opts) => {
 
-  const defaultOpts = {maxIter: 100, centroids: 3};
+  const defaultOpts = {maxIter: 100, centroids: 3, groupNames: null};
   let options = Object.assign({}, defaultOpts, opts);
 
   let normalizedInfo = regressionHelpers.getXFromParams(objects, params, false);
@@ -28,8 +28,8 @@ const kclustering = (objects, params, opts) => {
 
   centMap = findClosestCentroids(X, centroids);
 
-  const groups = mapObjectsToCentroid(centMap, objects, centroids, params);
-  const findGroup = _makePlaceObj(normalizedInfo, groups, params);
+  const groups = mapObjectsToCentroid(centMap, objects, centroids, params, options);
+  const findGroup = _makePlaceObj(normalizedInfo, groups, params, options);
 
   return {
     groups,
@@ -39,7 +39,7 @@ const kclustering = (objects, params, opts) => {
 };
 
 
-function _makePlaceObj(normalizedInfo, centroidMap, params){
+function _makePlaceObj(normalizedInfo, centroidMap, params, options){
   return object => {
     let minCent = null;
     let minDist = null;
@@ -66,11 +66,11 @@ function _makePlaceObj(normalizedInfo, centroidMap, params){
       }
     });
 
-    return parseInt(minCent);
+    return options.groupNames ? minCent : parseInt(minCent);
   };
 }
 
-const mapObjectsToCentroid = (centroidMap, objects, centroids, params) => {
+const mapObjectsToCentroid = (centroidMap, objects, centroids, params, options) => {
   let X = regressionHelpers.extractParams(objects, params);
 
   let unNormalizedCents = computeMeans(X, centroidMap, centroids);
@@ -91,7 +91,8 @@ const mapObjectsToCentroid = (centroidMap, objects, centroids, params) => {
 
   let finalMap = {};
   for(let i = 0; i < sorted.length; i++){
-    finalMap[i] = {groupAvgs: centroidObjectMap[i].centroid, objects: centroidObjectMap[i].objects};
+    let key = options.groupNames ? options.groupNames[i] : i;
+    finalMap[key] = {groupAvgs: centroidObjectMap[i].centroid, objects: centroidObjectMap[i].objects};
   }
 
   return finalMap;

@@ -82,6 +82,14 @@ test('#kclustering correctly clusters objects in 2 dimensions', () => {
   expect(clusteredInfo.groups[2].objects.length).toBe(3);
 });
 
+test('#kclustering correctly clusters objects in 2 dimensions, with names', () => {
+  let clusteredInfo = clusterer.kclustering(students, ['SAT', 'GPA'], {maxIter: 100, centroids: 3, groupNames: ['low', 'med', 'high']});
+
+  expect(clusteredInfo.groups['low'].objects.length).toBe(3);
+  expect(clusteredInfo.groups['med'].objects.length).toBe(8);
+  expect(clusteredInfo.groups['high'].objects.length).toBe(3);
+});
+
 test('#kclustering places new objects into the correct group', () => {
   let clusteredInfo = clusterer.kclustering(students, ['SAT', 'GPA'], {maxIter: 100, centroids: 3});
   let newStuLow = new Student(200, 1.4, false);
@@ -90,4 +98,14 @@ test('#kclustering places new objects into the correct group', () => {
 
   expect(clusteredInfo.findGroup(newStuLow)).toBe(0);
   expect(clusteredInfo.findGroup(newStuHigh)).toBe(2);
+});
+
+test('#kclustering places new objects into the correct group, with names', () => {
+  let clusteredInfo = clusterer.kclustering(students, ['SAT', 'GPA'], {maxIter: 100, centroids: 3, groupNames: ['low', 'med', 'high']});
+  let newStuLow = new Student(200, 1.4, false);
+  let newStuHigh = new Student(1400, 3.7, true);
+
+
+  expect(clusteredInfo.findGroup(newStuLow)).toBe('low');
+  expect(clusteredInfo.findGroup(newStuHigh)).toBe('high');
 });
