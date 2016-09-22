@@ -1,10 +1,14 @@
-let Regressor = require('./regression/regression.js');
+const Regressor = require('./regression/regression.js');
+const Clusterer = require('./clustering/k_clustering.js');
 
 module.exports = {
-  trainLinearReg: (objects, params, target, options) => {
+  runLinearReg: (objects, params, target, options) => {
     return Regressor.regression(objects, params, target, 'linear', options);
   },
-  trainLogisticReg: (objects, params, target, options) => {
+  runLogisticReg: (objects, params, target, options) => {
     return Regressor.regression(objects, params, target, 'logistic', options);
+  },
+  runKClustering: (objects, params, options) => {
+    return Clusterer.kclustering(objects, params, options);
   }
 };
