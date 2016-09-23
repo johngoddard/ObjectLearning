@@ -178,6 +178,7 @@ const findClosestCentroids = (X, centroids) => {
 };
 
 
+
 const _initializeCentroids = (X, numCentroids, params) => {
   if(numCentroids > X.length){
     throw 'you cannot have more centroids than data points';

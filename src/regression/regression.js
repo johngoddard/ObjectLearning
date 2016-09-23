@@ -102,7 +102,6 @@ const _sigmoid = z => {
 const computeLinearCost = (X, y, theta) => {
   let h = MatrixOps.multiply(X, theta);
   let diff = MatrixOps.subtract(h, y);
-
   diff = MatrixOps.elementTransform(diff, el => Math.pow(el, 2));
 
   return (diff.reduce((pre, curr) => pre + curr[0], 0))/(y.length);

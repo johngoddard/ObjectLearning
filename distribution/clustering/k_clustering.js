@@ -39,7 +39,7 @@ var kclustering = function kclustering(objects, params, opts) {
   };
 };
 
-function _makePlaceObj(normalizedInfo, centroidMap, params, options) {
+function _makePlaceObj(normalizedInfo, groups, params, options) {
   return function (object) {
     var minCent = null;
     var minDist = null;
@@ -49,9 +49,9 @@ function _makePlaceObj(normalizedInfo, centroidMap, params, options) {
       return (attr - normalizedInfo.means[idx]) / normalizedInfo.stdDevs[idx];
     });
 
-    Object.keys(centroidMap).forEach(function (id) {
+    groups.forEach(function (group, idx) {
       var cent = params.map(function (param) {
-        return centroidMap[id].groupAvgs[param];
+        return group.groupAvgs[param];
       });
 
       var centNorm = cent.map(function (attr, idx) {
@@ -62,11 +62,11 @@ function _makePlaceObj(normalizedInfo, centroidMap, params, options) {
 
       if (minDist !== 0 && !minDist || dist < minDist) {
         minDist = dist;
-        minCent = id;
+        minCent = group.groupName;
       }
     });
 
-    return options.groupNames ? minCent : parseInt(minCent);
+    return minCent;
   };
 }
 
@@ -77,7 +77,7 @@ var mapObjectsToCentroid = function mapObjectsToCentroid(centroidMap, objects, c
   var centroidObjectMap = [];
 
   unNormalizedCents.forEach(function (cent, idx) {
-    var centroidInfo = { id: idx, centroid: _formatCentroid(cent, params) };
+    var centroidInfo = { id: idx, groupAvgs: _formatCentroid(cent, params) };
     if (centroidMap[idx]) {
       var objs = centroidMap[idx].map(function (objIdx) {
         return objects[objIdx];
@@ -90,14 +90,13 @@ var mapObjectsToCentroid = function mapObjectsToCentroid(centroidMap, objects, c
   });
 
   var sorted = _sortCentroidMap(centroidObjectMap, centroids);
+  sorted.forEach(function (item, idx) {
+    var key = options.groupNames ? options.groupNames[idx] : idx;
+    item.groupName = key;
+    delete item.id;
+  });
 
-  var finalMap = {};
-  for (var i = 0; i < sorted.length; i++) {
-    var key = options.groupNames ? options.groupNames[i] : i;
-    finalMap[key] = { groupAvgs: centroidObjectMap[i].centroid, objects: centroidObjectMap[i].objects };
-  }
-
-  return finalMap;
+  return sorted;
 };
 
 function _sortCentroidMap(centroidMap, centroids) {

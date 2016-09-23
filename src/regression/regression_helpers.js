@@ -90,7 +90,7 @@ const normalizeFeatures = (params, isReg) => {
 const getXFromParams = (objects, params, isReg) => {
   let X = extractParams(objects, params);
   return normalizeFeatures(X, isReg);
-}
+};
 
 
 

@@ -223,8 +223,115 @@ You can run normalized k-means clustering on a set of objects by running `Object
     }
   ]
 ```
+
+## Model implementation details
+
+### Linear regression
+
+The `#runLinearReg` function performs linear regression by gradient descent. First, the values for the target attributes are extracted from and normalized such that for each attribute will have a mean of 0 and a standard deviation of 1.
+
+The normalized data is then read into a 2-dimensional array, `X`, where each row represents the attributes for a given object. A columns of ones is added to the beginning of this 'matrix' to represent a constant parameter. An array of parameters, `theta`, is then initialized as an array of zeroes.
+
+The regression then runs for a set number of steps, which can be controlled with the `iter` attribute in the options hash passed into `#runLinearReg`. For each step, gradient descent is performed, and `theta` is updated to the return value of the gradient descent function as follows:
+
+```JavaScript
+
+  theta = gradientDescentLinear(X, y, theta, alpha);
+
+  function gradientDescentLinear(X, y, theta, alpha){
+    let h = MatrixOps.multiply(X, theta);
+    let diff = MatrixOps.subtract(h, y);
+
+    let Xtrans = MatrixOps.transpose(X);
+    let tau = MatrixOps.multiply(Xtrans, diff);
+
+    let gradientStep = MatrixOps.multiply(tau, (alpha / y.length));
+
+    return MatrixOps.subtract(theta, gradientStep);
+  };
+```
+
+In the gradient descent function:
+- `h` is a column vector that represents the hypothesis, the target value for each object as predicted by the current `theta` values
+- `diff` is the difference between those predicted values and the actual target value for each object (stored in the column vector `y`)
+-`tau` is the result of multiplying a row representing each object's value for a given attribute by the model error, `diff`. It essentially measures the amount each attribute is contributing to the error of the model.  
+- `tau` is then scaled by a factor of `alpha` divided by the number of objects. This scaled amount is then subtracted from theta. Note that as the regression runs, these steps should get smaller and smaller since the error, and thus `tau`, should be decreasing if a linear relationship does in fact exist in the data.
+
+Note that the `matrixops` module is used for convenience for matrix operations.
+
+The final values for theta are available in the object returned by `runLinearReg`, and they're closed over by the `evalObject` and `testObjects` functions returned by the regression. Note that the 2 returned functions also close over the original means and standard deviations from the data, so that new test objects can be normalized accurately.
+
+### Logistic regression
+
+The `runLogisticReg` function works very similarly to the `runLinearReg` function. One of the primary differences is when the hypothesis is computed in the `gradientDescentLogistic` function, the result of multiplying each objects attributes by the current `theta` values is run through the sigmoid function:
+
+```JavaScript
+  function _sigmoid(z) {
+    return (1/(1 + Math.exp(-z)));
+  };
+```
+
+This outputs a number a between 0 (very large negative z values) and 1 (very large positive z values), which is crucial because all of the target values in `y` are 0 or 1. Similarly, the `evalObject` and `testObjects` function run their outputs through the sigmoid function as well.
+
+### K-means Clustering
+
+The `runKClustering` function also starts off by extracting the model parameters from the array of objects,normalizing them, and storing them in a matrix `X`. K-means clustering is an unsupervised learning model, so there is no target parameter.
+
+`centroids` are initialized to start at the location of random points in the data set `X`
+
+The clustering algorithm is run for up to `maxIter` steps, which is an option that can be specified in the options object. Each step, each object is first assigned to the nearest cluster centroid:
+
+```JavaScript
+  function findClosestCentroids(X, centroids) => {
+    let centroidObjectMap = {};
+
+    X.forEach((row, rowIdx) => {
+      const closestCentroidIdx = _findClosestCentroid(row, centroids);
+
+      if(centroidObjectMap[closestCentroidIdx]) {
+        centroidObjectMap[closestCentroidIdx].push(rowIdx);
+      } else{
+        centroidObjectMap[closestCentroidIdx] = [rowIdx];
+      }
+    });
+
+    return centroidObjectMap;
+  };
+```
+
+Next, the `centroids` are updated to be the average of the data points that they are closest centroids for:
+
+```JavaScript
+  function computeMeans(X, centroidMap, centroids){
+    let newCentroids = [];
+    centroids.forEach((centroid, centIdx) => {
+      if(!centroidMap[centIdx]){
+        const shuffled = clusterHelpers.shuffle(X);
+        newCentroids.push(shuffled[0]);
+      } else {
+        const objs = centroidMap[centIdx].map(idx => X[idx]);
+        newCentroids.push(clusterHelpers.computeMean(objs));
+      }
+    });
+
+    return newCentroids;
+  };
+```
+Note that centroids are randomly re-initialized if they are not the closest centroid for any data points.
+
+Since each step in the clustering algorithm is deterministic, the algorithm stops if the new set of centroids in a given set equals the previous set of centroids.
+
+The `findGroup` function returned by the model accepts an object, normalizes it, and finds its closest normalized centroid, returning its  name.
+
+### Learn more
+
+If you're interested in learning more, I highly recommend [Andrew Ng's machine learning course][classLink] on Coursera.
+
 ## Future directions
 
 ObjectLearning is still relatively new, and there's a lot I'd like to do expand it going forward:
   - More learning model types: I'd like to expand the available models to include other common machine learning techniques like PCA, SVM, etc...
   - More powerful models: I'd also like to expand existing model functionality to make them more useful. E.g. For the regression model, I'd like it to be possible to apply additional techniques like feature mapping.
+
+
+[classLink]: https://www.coursera.org/learn/machine-learning
