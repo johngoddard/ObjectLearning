@@ -189,40 +189,40 @@ You can run normalized k-means clustering on a set of objects by running `ObjLea
 
     clusteringModel.groups;
     // =>
-    // {
-    //   'low': {
-    //     groupAvgs: { SAT: 350, GPA: 1.3999999999999997 },
-    //     objects: [
-    //       { SAT: 400, GPA: 1.2 },
-    //       { SAT: 450, GPA: 1.9 },
-    //       { SAT: 200, GPA: 1.1 }
-    //     ]
-    //   },
-    //   'med': {
-    //     groupAvgs: { SAT: 860, GPA: 2.6125 },
-    //     objects: [
-    //       { SAT: 900, GPA: 2.4 },
-    //       { SAT: 850, GPA: 2.6},
-    //       { SAT: 950, GPA: 2.7},
-    //       { SAT: 1000, GPA: 3.0},
-    //       { SAT: 1040, GPA: 2.6},
-    //       { SAT: 760, GPA: 2.3 },
-    //       { SAT: 660, GPA: 2.5 },
-    //       { SAT: 720, GPA: 2.8}
-    //     ]
-    //   },
-    //   'high': {
-    //     groupAvgs: { SAT: 1333.3333333333333, GPA: 3.5666666666666664 },
-    //     objects: [
-    //       { SAT: 1500, GPA: 3.8 },
-    //       { SAT: 1200, GPA: 3.5 },
-    //       { SAT: 1300, GPA: 3.4 }
-    //     ]
-    //   }
-    // }
+    {
+      'low': {
+        groupAvgs: { SAT: 350, GPA: 1.3999999999999997 },
+        objects: [
+          { SAT: 400, GPA: 1.2 },
+          { SAT: 450, GPA: 1.9 },
+          { SAT: 200, GPA: 1.1 }
+        ]
+      },
+      'med': {
+        groupAvgs: { SAT: 860, GPA: 2.6125 },
+        objects: [
+          { SAT: 900, GPA: 2.4 },
+          { SAT: 850, GPA: 2.6},
+          { SAT: 950, GPA: 2.7},
+          { SAT: 1000, GPA: 3.0},
+          { SAT: 1040, GPA: 2.6},
+          { SAT: 760, GPA: 2.3 },
+          { SAT: 660, GPA: 2.5 },
+          { SAT: 720, GPA: 2.8}
+        ]
+      },
+      'high': {
+        groupAvgs: { SAT: 1333.3333333333333, GPA: 3.5666666666666664 },
+        objects: [
+          { SAT: 1500, GPA: 3.8 },
+          { SAT: 1200, GPA: 3.5 },
+          { SAT: 1300, GPA: 3.4 }
+        ]
+      }
+    }
   ```
 ## Future directions
 
   ObjLearner is still relatively new, and there's a lot I'd like to do expand it going forward:
-  - More learning model types: I'd like to expand the available models to include other common machine learning techniques like PCA, SVM, etc...
-  - More powerful models: I'd also like to expand existing model functionality to make them more useful. E.g. For the regression model, I'd like it to be possible to apply additional techniques like feature mapping.
+    - More learning model types: I'd like to expand the available models to include other common machine learning techniques like PCA, SVM, etc...
+    - More powerful models: I'd also like to expand existing model functionality to make them more useful. E.g. For the regression model, I'd like it to be possible to apply additional techniques like feature mapping.
