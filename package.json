@@ -1,7 +1,7 @@
 {
   "name": "objlearning",
   "version": "1.1.0",
-  "description": "Package for matrix operations and lightweight machine learning",
+  "description": "A package for training lightweight machine learning models directly on JavaScript objects",
   "main": "./distribution/index.js",
   "directories": {
     "doc": "docs"

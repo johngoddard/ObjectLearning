@@ -65,7 +65,7 @@ var addOnes = function addOnes(arr) {
   });
 };
 
-var normalizeFeatures = function normalizeFeatures(params) {
+var normalizeFeatures = function normalizeFeatures(params, isReg) {
   var transpose = MatrixOps.transpose(params);
 
   var means = transpose.map(function (row) {
@@ -88,12 +88,16 @@ var normalizeFeatures = function normalizeFeatures(params) {
     return newRow;
   });
 
-  return { means: means, stdDevs: stdDevs, normalized: addOnes(normalized) };
+  if (isReg) {
+    return { means: means, stdDevs: stdDevs, normalized: addOnes(normalized) };
+  } else {
+    return { means: means, stdDevs: stdDevs, normalized: normalized };
+  }
 };
 
-var getXFromParams = function getXFromParams(objects, params) {
+var getXFromParams = function getXFromParams(objects, params, isReg) {
   var X = extractParams(objects, params);
-  return normalizeFeatures(X);
+  return normalizeFeatures(X, isReg);
 };
 
 var normalizeTestObjs = function normalizeTestObjs(testObjs, normalizedData) {

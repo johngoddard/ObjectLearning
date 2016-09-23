@@ -4,7 +4,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var MatrixOps = require('matrixops');
 
-var extractParams = function extractParams(objects, params) {
+var LOG_TARGETS = [true, false, 1, 0, '1', '0'];
+
+var extractParams = function extractParams(objects, params, logisticTarget) {
 
   if (!(params instanceof Array)) {
     params = [params];
@@ -16,7 +18,13 @@ var extractParams = function extractParams(objects, params) {
     var objParams = [];
     params.forEach(function (param) {
       if (obj.hasOwnProperty(param)) {
-        objParams.push(obj[param]);
+        if (logisticTarget && !LOG_TARGETS.includes(obj[param])) {
+          throw 'Not a valid target value for logistic regression';
+        } else if (logisticTarget) {
+          objParams.push(_logisticVal(obj[param]));
+        } else {
+          objParams.push(obj[param]);
+        }
       } else {
         throw 'All objects must have specified paramaters';
       }
@@ -26,6 +34,14 @@ var extractParams = function extractParams(objects, params) {
   });
 
   return returnParams;
+};
+
+var _logisticVal = function _logisticVal(val) {
+  if (val === true || val === 1 || val === '1') {
+    return 1;
+  } else {
+    return 0;
+  }
 };
 
 var calculateMean = function calculateMean(arr) {
@@ -80,19 +96,6 @@ var getXFromParams = function getXFromParams(objects, params) {
   return normalizeFeatures(X);
 };
 
-var computeCost = function computeCost(X, y, theta) {
-  var h = MatrixOps.multiply(X, theta);
-  var diff = MatrixOps.subtract(h, y);
-
-  diff = MatrixOps.elementTransform(diff, function (el) {
-    return Math.pow(el, 2);
-  });
-
-  return diff.reduce(function (pre, curr) {
-    return pre + curr[0];
-  }, 0) / (2 * y.length);
-};
-
 var normalizeTestObjs = function normalizeTestObjs(testObjs, normalizedData) {
   var newObjs = [];
 
@@ -108,26 +111,12 @@ var normalizeTestObjs = function normalizeTestObjs(testObjs, normalizedData) {
   return newObjs;
 };
 
-var gradientDescent = function gradientDescent(X, y, theta, alpha) {
-  var h = MatrixOps.multiply(X, theta);
-  var diff = MatrixOps.subtract(h, y);
-
-  var Xtrans = MatrixOps.transpose(X);
-  var tau = MatrixOps.multiply(Xtrans, diff);
-
-  var gradientStep = MatrixOps.multiply(tau, alpha / y.length);
-
-  return MatrixOps.subtract(theta, gradientStep);
-};
-
 module.exports = {
   extractParams: extractParams,
   calculateMean: calculateMean,
   calculateSTD: calculateSTD,
   addOnes: addOnes,
   getXFromParams: getXFromParams,
-  computeCost: computeCost,
   normalizeFeatures: normalizeFeatures,
-  normalizeTestObjs: normalizeTestObjs,
-  gradientDescent: gradientDescent
+  normalizeTestObjs: normalizeTestObjs
 };
