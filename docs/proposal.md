@@ -13,9 +13,9 @@ I see a few potential uses for the library:
 The following are the core pieces of functionality:
 
 - [X] Library that allows users to create a Matrix object from an array of arrays and do basic matrix operations on them (adding, subtracting, multiplying, adding a scalar to a matrix, and element-wise operations)
-- [ ] Linear regression that takes in an array of objects, an array of parameter attributes, and a target attribute
-- [ ] Logistic regression that takes in an array of objects, an array of parameter attributes, and a target attribute
-- [ ] K-means clustering that takes in an array of objects, and 2 parameter attributes as arguments
+- [x] Linear regression that takes in an array of objects, an array of parameter attributes, and a target attribute
+- [x] Logistic regression that takes in an array of objects, an array of parameter attributes, and a target attribute
+- [x] K-means clustering that takes in an array of objects, and 2 parameter attributes as arguments
 
 ### Wireframes
 
@@ -57,18 +57,18 @@ For k-means clustering, I will create a `Clusterer` class with the following met
 
 **Day 3**: Implement linear regression
 
-- [ ] Implement linear regression class
-- [ ] Test to ensure accuracy
+- [x] Implement linear regression class
+- [x] Test to ensure accuracy
 
 **Day 4**: Implement logistic regression
 
-- [ ] Implement logistic regression class
-- [ ] Test to ensure accuracy
+- [x] Implement logistic regression class
+- [x] Test to ensure accuracy
 
 **Day 5**: Implement k-means clustering
 
-- [ ] Implement k-means clustering class
-- [ ] Test to ensure accuracy
+- [x] Implement k-means clustering class
+- [x] Test to ensure accuracy
 
 
 ### Bonus features

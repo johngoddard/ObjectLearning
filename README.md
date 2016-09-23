@@ -1,21 +1,21 @@
-# ObjLearning
+# object-learning
 
-ObjLearning is module that lets you train lightweight machine learning regression and clustering models on the fly, using JavaScript syntax.
+object-learning is module that lets you train lightweight machine learning regression and clustering models directly from JavaScript objects on the fly.
 
 ## Usage
 
-To install ObjLearning, simply run:
+To install ObjectLearning, simply run:
 
 ```JavaScript
-  npm install objlearning
+  npm install object-learning
 ```
 
 ### Linear Regression
 
-You can run a normalized linear regression by running `ObjLearning#runLinearReg`:
+You can run a normalized linear regression by running `ObjectLearning#runLinearReg`:
 
 ```JavaScript
-  const ObjLearning = require('objlearning');
+  const ObjectLearning = require('objlearning');
 
   const cats = [
     {
@@ -36,7 +36,7 @@ You can run a normalized linear regression by running `ObjLearning#runLinearReg`
   ];
 
   const regressionModel =
-  ObjLearning.runLinearReg(
+  ObjectLearning.runLinearReg(
     cats,
     ['height', 'weight'],
     'fluffiness',
@@ -60,7 +60,7 @@ Running the regression returns an object with the following attributes:
 Continuing from the example above:
 
 ```JavaScript
-  const regressionModel = ObjLearning.runLinearReg(cats, ['height', 'weight'], 'fluffiness', {iter: 1000, alpha: .01});
+  const regressionModel = ObjectLearning.runLinearReg(cats, ['height', 'weight'], 'fluffiness', {iter: 1000, alpha: .01});
 
   // model is approximately fluffiness = height + 2 * weight
 
@@ -84,10 +84,10 @@ Continuing from the example above:
 
 ### Logistic Regression
 
-You can run a normalized logistic regression by running `ObjLearning#runLogisticReg`:
+You can run a normalized logistic regression by running `ObjectLearning#runLogisticReg`:
 
 ```JavaScript
-  const ObjLearning = require('objlearning');
+  const ObjectLearning = require('objlearning');
 
   const students = [
     {SAT: 1500, GPA: 3.8, acceptedToCollege: true},
@@ -105,7 +105,7 @@ You can run a normalized logistic regression by running `ObjLearning#runLogistic
   ];
 
   const regressionModel =
-  ObjLearning.runLogisticReg(
+  ObjectLearning.runLogisticReg(
     students,
     ['SAT', 'GPA'],
     'acceptedToCollege'
@@ -122,7 +122,7 @@ The model object returned by the regression has the same attributes as the model
 Continuing the example of above:
 
 ```JavaScript
-  const regressionModel = ObjLearning.runLogisticReg(students, ['SAT', 'GPA'], 'acceptedToCollege');
+  const regressionModel = ObjectLearning.runLogisticReg(students, ['SAT', 'GPA'], 'acceptedToCollege');
 
   regressionModel.evalObject({SAT: 430, GPA: 1.9});
   // => .00145...
@@ -136,7 +136,7 @@ Continuing the example of above:
 
 ### k-means clustering
 
-You can run normalized k-means clustering on a set of objects by running `ObjLearning#runKClustering`:
+You can run normalized k-means clustering on a set of objects by running `ObjectLearning#runKClustering`:
 
 ```JavaScript
   const students = [
@@ -156,7 +156,7 @@ You can run normalized k-means clustering on a set of objects by running `ObjLea
   ];
 
   const clusteringModel =
-  ObjLearning.runKClustering(
+  ObjectLearning.runKClustering(
     students,
     ['SAT', 'GPA'],
     {
@@ -182,7 +182,7 @@ You can run normalized k-means clustering on a set of objects by running `ObjLea
   Continuing the example above:
 
 ```JavaScript
-  const clusteringModel = ObjLearning.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3, groupNames: ['low', 'med', 'high']});
+  const clusteringModel = ObjectLearning.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3, groupNames: ['low', 'med', 'high']});
 
   clusteringModel.findGroup({SAT: 1600, GPA: 3.9});
   // => 'high'
@@ -222,6 +222,6 @@ You can run normalized k-means clustering on a set of objects by running `ObjLea
 ```
 ## Future directions
 
-ObjLearning is still relatively new, and there's a lot I'd like to do expand it going forward:
+ObjectLearning is still relatively new, and there's a lot I'd like to do expand it going forward:
   - More learning model types: I'd like to expand the available models to include other common machine learning techniques like PCA, SVM, etc...
   - More powerful models: I'd also like to expand existing model functionality to make them more useful. E.g. For the regression model, I'd like it to be possible to apply additional techniques like feature mapping.

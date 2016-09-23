@@ -1,11 +1,12 @@
 {
-  "name": "objlearning",
-  "version": "1.1.5",
+  "name": "object-learning",
+  "version": "1.0.1",
   "description": "Train lightweight machine learning models directly on JavaScript objects",
   "main": "./distribution/index.js",
   "directories": {
     "doc": "docs"
   },
+  "keywords": ["math", "machine learning", "regression", "clustering", "k means"],
   "scripts": {
     "test": "jest",
     "build": "babel src --presets babel-preset-es2015 --out-dir distribution",
@@ -13,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johngoddard/ObjLearner.git"
+    "url": "git+https://github.com/johngoddard/ObjectLearning.git"
   },
   "author": "John Goddard <johngoddard243@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/johngoddard/ObjLearner/issues"
+    "url": "https://github.com/johngoddard/ObjectLearning/issues"
   },
-  "homepage": "https://github.com/johngoddard/ObjLearner#readme",
+  "homepage": "https://github.com/johngoddard/ObjectLearning#readme",
   "devDependencies": {
     "babel-cli": "^6.14.0",
     "babel-preset-es2015": "^6.14.0",
