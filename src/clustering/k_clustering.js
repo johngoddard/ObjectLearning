@@ -39,7 +39,7 @@ const kclustering = (objects, params, opts) => {
 };
 
 
-function _makePlaceObj(normalizedInfo, centroidMap, params, options){
+function _makePlaceObj(normalizedInfo, groups, params, options){
   return object => {
     let minCent = null;
     let minDist = null;
@@ -49,9 +49,9 @@ function _makePlaceObj(normalizedInfo, centroidMap, params, options){
       return (attr - normalizedInfo.means[idx])/normalizedInfo.stdDevs[idx];
     });
 
-    Object.keys(centroidMap).forEach(id => {
+    groups.forEach((group, idx) => {
       let cent = params.map(param => {
-        return centroidMap[id].groupAvgs[param];
+        return group.groupAvgs[param];
       });
 
       let centNorm = cent.map((attr, idx) => {
@@ -62,11 +62,11 @@ function _makePlaceObj(normalizedInfo, centroidMap, params, options){
 
       if((minDist !== 0 && !minDist) || dist < minDist){
         minDist = dist;
-        minCent = id;
+        minCent = group.groupName;
       }
     });
 
-    return options.groupNames ? minCent : parseInt(minCent);
+    return minCent;
   };
 }
 
@@ -77,7 +77,7 @@ const mapObjectsToCentroid = (centroidMap, objects, centroids, params, options) 
   let centroidObjectMap = [];
 
   unNormalizedCents.forEach((cent, idx) => {
-    let centroidInfo = {id: idx, centroid: _formatCentroid(cent, params)};
+    let centroidInfo = { id: idx, groupAvgs: _formatCentroid(cent, params) };
     if(centroidMap[idx]){
       let objs = centroidMap[idx].map(objIdx => objects[objIdx]);
       centroidInfo.objects = objs;
@@ -88,14 +88,12 @@ const mapObjectsToCentroid = (centroidMap, objects, centroids, params, options) 
   });
 
   let sorted = _sortCentroidMap(centroidObjectMap, centroids);
+  sorted.forEach((item, idx) => {
+    let key = options.groupNames ? options.groupNames[idx] : idx;
+    item.groupName = key;
+  });
 
-  let finalMap = {};
-  for(let i = 0; i < sorted.length; i++){
-    let key = options.groupNames ? options.groupNames[i] : i;
-    finalMap[key] = {groupAvgs: centroidObjectMap[i].centroid, objects: centroidObjectMap[i].objects};
-  }
-
-  return finalMap;
+  return sorted;
 };
 
 function _sortCentroidMap(centroidMap, centroids){
