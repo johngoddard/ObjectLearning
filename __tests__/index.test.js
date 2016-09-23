@@ -65,7 +65,7 @@ test('#kclustering correctly clusters objects in 2 dimensions', () => {
 
 test('#kclustering correctly clusters objects in 2 dimensions, with names', () => {
   let clusteredInfo = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3, groupNames: ['low', 'med', 'high']});
-
+  
   expect(clusteredInfo.groups[0].objects.length).toBe(3);
   expect(clusteredInfo.groups[0].groupName).toBe('low');
   expect(clusteredInfo.groups[1].objects.length).toBe(8);

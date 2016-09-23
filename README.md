@@ -170,7 +170,7 @@ You can run normalized k-means clustering on a set of objects by running `Object
 `runKClustering` accepts the following parameters:
 - An array of objects or class objects
 - An array of attributes containing the parameters for the clustering
-- An optional options object with the following arguments:
+- An optional options object with the following attributes:
   - `maxIter`: The max number of times to run through the clustering analysis
   - `groups`: The number groups to cluster the objects into
   - `groupNames`: Names for the groups. Groups are sorted low to high according to total of the group average for the normalized model parameters. If no names are specified, the group names will default to 0, 1, 2...
@@ -189,15 +189,17 @@ You can run normalized k-means clustering on a set of objects by running `Object
 
   clusteringModel.groups;
   // =>
-  {
-    'low': {
+  [
+    {
+      groupName: 'low'
       groupAvgs: { SAT: 300, GPA: 1.1 },
       objects: [
         { SAT: 400, GPA: 1.2 },
         { SAT: 200, GPA: 1.0 }
       ]
     },
-    'med': {
+    {
+      groupName: 'med'
       groupAvgs: { SAT: 860, GPA: 2.6125 },
       objects: [
         { SAT: 900, GPA: 2.4 },
@@ -210,7 +212,8 @@ You can run normalized k-means clustering on a set of objects by running `Object
         { SAT: 720, GPA: 2.8}
       ]
     },
-    'high': {
+    {
+      groupName: 'high'
       groupAvgs: { SAT: 1333.3333333333333, GPA: 3.5666666666666664 },
       objects: [
         { SAT: 1500, GPA: 3.8 },
@@ -218,7 +221,7 @@ You can run normalized k-means clustering on a set of objects by running `Object
         { SAT: 1300, GPA: 3.4 }
       ]
     }
-  }
+  ]
 ```
 ## Future directions
 

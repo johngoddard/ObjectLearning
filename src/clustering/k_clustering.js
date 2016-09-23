@@ -91,6 +91,7 @@ const mapObjectsToCentroid = (centroidMap, objects, centroids, params, options) 
   sorted.forEach((item, idx) => {
     let key = options.groupNames ? options.groupNames[idx] : idx;
     item.groupName = key;
+    delete item.id
   });
 
   return sorted;
