@@ -1,6 +1,6 @@
 # object-learning
 
-object-learning is module that lets you train lightweight machine learning regression and clustering models directly from JavaScript objects on the fly.
+object-learning is module that trains lightweight machine learning regression and clustering models directly from JavaScript objects.
 
 ## Usage
 
@@ -177,7 +177,7 @@ You can run normalized k-means clustering on a set of objects by running `Object
 
 `runKClustering` returns an object with the following attributes:
   - `groups`: An object of objects where each sub-object has the parameter averages and objects for each group.
-  - `findGroup`: A function that accepts an object and returns the name of the cluster that the object would be part of
+  - `findGroup`: A function that accepts an object and returns the name of the group that the object would be part of
 
   Continuing the example above:
 
@@ -228,7 +228,7 @@ You can run normalized k-means clustering on a set of objects by running `Object
 
 ### Linear regression
 
-The `#runLinearReg` function performs linear regression by gradient descent. First, the values for the target attributes are extracted from and normalized such that for each attribute will have a mean of 0 and a standard deviation of 1.
+The `#runLinearReg` function performs linear regression via gradient descent. First, the values for the target attributes are extracted from the objects array and normalized such that each attribute will have a mean of 0 and a standard deviation of 1.
 
 The normalized data is then read into a 2-dimensional array, `X`, where each row represents the attributes for a given object. A columns of ones is added to the beginning of this 'matrix' to represent a constant parameter. An array of parameters, `theta`, is then initialized as an array of zeroes.
 
@@ -252,9 +252,9 @@ The regression then runs for a set number of steps, which can be controlled with
 ```
 
 In the gradient descent function:
-- `h` is a column vector that represents the hypothesis, the target value for each object as predicted by the current `theta` values
+- `h` is a column vector that represents the hypothesis, defined as the target value for each object as predicted by the current `theta` values
 - `diff` is the difference between those predicted values and the actual target value for each object (stored in the column vector `y`)
--`tau` is the result of multiplying a row representing each object's value for a given attribute by the model error, `diff`. It essentially measures the amount each attribute is contributing to the error of the model.  
+- `tau` is the result of multiplying a row representing each object's value for a given attribute by the model error, `diff`. It essentially measures the amount each attribute and corresponding theta parameter is contributing to the error of the model.  
 - `tau` is then scaled by a factor of `alpha` divided by the number of objects. This scaled amount is then subtracted from theta. Note that as the regression runs, these steps should get smaller and smaller since the error, and thus `tau`, should be decreasing if a linear relationship does in fact exist in the data.
 
 Note that the `matrixops` module is used for convenience for matrix operations.
@@ -275,7 +275,7 @@ This outputs a number a between 0 (very large negative z values) and 1 (very lar
 
 ### K-means Clustering
 
-The `runKClustering` function also starts off by extracting the model parameters from the array of objects,normalizing them, and storing them in a matrix `X`. K-means clustering is an unsupervised learning model, so there is no target parameter.
+The `runKClustering` function also starts off by extracting the model parameters from the array of objects, normalizing them, and storing them in a matrix `X`. K-means clustering is an unsupervised learning model, so there is no target parameter.
 
 `centroids` are initialized to start at the location of random points in the data set `X`
 
@@ -317,11 +317,11 @@ Next, the `centroids` are updated to be the average of the data points that they
     return newCentroids;
   };
 ```
-Note that centroids are randomly re-initialized if they are not the closest centroid for any data points.
+Note that centroids are randomly re-initialized if they are not the closest centroid for any data point. Since each step in the clustering algorithm is deterministic, the algorithm stops if the new set of centroids in a given set equals the previous set of centroids.
 
-Since each step in the clustering algorithm is deterministic, the algorithm stops if the new set of centroids in a given set equals the previous set of centroids.
+The `groups` returned by the model are sorted by the sum of their normalized attributes, which might be useful in certain circumstances (for instance you might have 2 dimensional data with a linear-ish relationship).
 
-The `findGroup` function returned by the model accepts an object, normalizes it, and finds its closest normalized centroid, returning its  name.
+The `findGroup` function returned by the model accepts an object, normalizes it, and finds its closest normalized centroid, returning the centroid's group name.
 
 ### Learn more
 

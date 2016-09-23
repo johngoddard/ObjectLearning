@@ -35,9 +35,7 @@ const kclustering = (objects, params, opts) => {
     groups,
     findGroup
   };
-
 };
-
 
 function _makePlaceObj(normalizedInfo, groups, params, options){
   return object => {
