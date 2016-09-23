@@ -95,7 +95,7 @@ You can run a normalized logistic regression by running `ObjLearner#runLogisticR
     {SAT: 1040, GPA: 2.6, acceptedToCollege: true},
     {SAT: 760, GPA: 2.3, acceptedToCollege: false},
     {SAT: 660, GPA: 2.5, acceptedToCollege: false},
-    {SAT: 720, GPA: 2.8, acceptedToCollege: true},
+    {SAT: 720, GPA: 2.8, acceptedToCollege: true}
   ];
 
   const regressionModel = ObjLearner.runLogisticReg(students, ['SAT', 'GPA'], 'acceptedToCollege');
@@ -141,7 +141,7 @@ You can run normalized k-means clustering on a set of objects by running `ObjLea
     {SAT: 1040, GPA: 2.6},
     {SAT: 760, GPA: 2.3},
     {SAT: 660, GPA: 2.5},
-    {SAT: 720, GPA: 2.8},
+    {SAT: 720, GPA: 2.8}
   ];
 
   const clusteringModel = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3, groupNames: ['low', 'med', 'high']})
