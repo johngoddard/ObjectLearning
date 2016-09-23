@@ -58,11 +58,6 @@ let errCats = [
 test('#kclustering correctly clusters objects in 2 dimensions', () => {
   let clusteredInfo = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3});
 
-  Object.keys(clusteredInfo.groups).forEach(key => {
-    console.log(clusteredInfo.groups[key].groupAvgs);
-    console.log(clusteredInfo.groups[key].objects);
-  });
-
   expect(clusteredInfo.groups[0].objects.length).toBe(3);
   expect(clusteredInfo.groups[1].objects.length).toBe(8);
   expect(clusteredInfo.groups[2].objects.length).toBe(3);

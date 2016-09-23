@@ -26,14 +26,14 @@ You can run a normalized linear regression by running `ObjLearning#runLinearReg`
     {
       height: 2,
       weight: 3,
-      fluffiness: 5
+      fluffiness: 8
     },
     {
       height: 5,
       weight: 6,
       fluffiness: 17
     },
-  ]
+  ];
 
   const regressionModel =
   ObjLearning.runLinearReg(
@@ -64,7 +64,7 @@ Continuing from the example above:
 
   // model is approximately fluffiness = height + 2 * weight
 
-  regressionModel.evaluate({height: 4, weight: 5})
+  regressionModel.evalObject({height: 4, weight: 5});
   // => ~14
 
   regressionModel.test([
@@ -78,7 +78,7 @@ Continuing from the example above:
       weight: 3,
       fluffiness: 7
     },
-  ])
+  ]);
   // => ~1
 ```
 
@@ -124,13 +124,13 @@ Continuing the example of above:
 ```JavaScript
   const regressionModel = ObjLearning.runLogisticReg(students, ['SAT', 'GPA'], 'acceptedToCollege');
 
-  regressionModel.evaluate({SAT: 430, GPA: 1.9});
+  regressionModel.evalObject({SAT: 430, GPA: 1.9});
   // => .00145...
 
-  regressionModel.evaluate({SAT: 860, GPA: 2.5});
+  regressionModel.evalObject({SAT: 860, GPA: 2.5});
   // => .55366...
 
-  regressionModel.evaluate({SAT: 1370, GPA: 3.8});
+  regressionModel.evalObject({SAT: 1370, GPA: 3.8});
   // => .9968...
 ```
 
@@ -182,20 +182,19 @@ You can run normalized k-means clustering on a set of objects by running `ObjLea
   Continuing the example above:
 
   ```JavaScript
-    const clusteringModel = ObjLearning.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3, groupNames: ['low', 'med', 'high']})
+    const clusteringModel = ObjLearning.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3, groupNames: ['low', 'med', 'high']});
 
-    clusteringModel.findGroup({SAT: 1600, GPA: 3.9})
+    clusteringModel.findGroup({SAT: 1600, GPA: 3.9});
     // => 'high'
 
     clusteringModel.groups;
     // =>
     {
       'low': {
-        groupAvgs: { SAT: 350, GPA: 1.3999999999999997 },
+        groupAvgs: { SAT: 300, GPA: 1.1 },
         objects: [
           { SAT: 400, GPA: 1.2 },
-          { SAT: 450, GPA: 1.9 },
-          { SAT: 200, GPA: 1.1 }
+          { SAT: 200, GPA: 1.0 }
         ]
       },
       'med': {
