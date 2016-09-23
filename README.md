@@ -42,7 +42,7 @@ You can run a normalized linear regression by running `ObjLearner#runLinearReg`:
 - An array attributes that specify the parameters the model should be trained on. Each object in the objects array must have have all of the specified attributes.
 - A target parameter the model should try to predict. All objects in the array must the specified target attribute.
 - An optional options array that can specify:
-  - `iter`: the number of iterations of gradient descent (explained below) that should be performed when training the model.
+  - `iter`: the number of iterations of gradient descent that should be performed when training the model.
   - `alpha`: The constant alpha that should be used for each regression gradient descent step. Use this to tune the model. Values between .1 and .001 are recommended in most scenarios.
 
 Running the regression returns an object with the following attributes:
@@ -102,7 +102,7 @@ You can run a normalized logistic regression by running `ObjLearner#runLogisticR
 ```
 
 The parameters for the `runLogisticReg` are identical to the parameters for `runLinearReg` with one caveat:
-- For each object, the value of the target object must be `true`, `false`, `1`, or `0`.
+- For each object, the value of the target attribute must be `true`, `false`, `1`, or `0`.
 
 The model object returned by the regression has the same attributes as the model returned by the `runLinearReg`. Note the following differences:
 - The `evalObject` function will now return a number between 0 and 1 that represents the probability that the target attribute for the test object will be 1 or true.
@@ -157,7 +157,7 @@ You can run normalized k-means clustering on a set of objects by running `ObjLea
 
 `runKClustering` returns an object with the following attributes:
   - `groups`: An object of objects where each sub-object has the parameter averages and objects for each group.
-  - `findGroup`: A function that accepts an object and returns the name of the cluster that that object would be part of
+  - `findGroup`: A function that accepts an object and returns the name of the cluster that the object would be part of
 
   Continuing the example above:
 
@@ -204,5 +204,5 @@ You can run normalized k-means clustering on a set of objects by running `ObjLea
 ## Future directions
 
 ObjLearner is still relatively new, and there's a lot I'd like to do expand it going forward:
-  - More learning model types: I'd like to expand the available models to include other common machine learning techniques like PCA, SVM, etc...
-  - More powerful models: I'd also like to expand existing model functionality to make them more useful. E.g. For the regression model, I'd like it to be possible to apply additional techniques like feature mapping.
+- More learning model types: I'd like to expand the available models to include other common machine learning techniques like PCA, SVM, etc...
+- More powerful models: I'd also like to expand existing model functionality to make them more useful. E.g. For the regression model, I'd like it to be possible to apply additional techniques like feature mapping.
