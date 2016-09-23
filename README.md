@@ -1,6 +1,6 @@
 # ObjLearning
 
-ObjLearning is module that let's you train lightweight machine learning regression and clustering models on the fly, using JavaScript syntax.
+ObjLearning is module that lets you train lightweight machine learning regression and clustering models on the fly, using JavaScript syntax.
 
 ## Usage
 
