@@ -223,6 +223,6 @@ You can run normalized k-means clustering on a set of objects by running `ObjLea
   ```
 ## Future directions
 
-ObjLearner is still relatively new, and there's a lot I'd like to do expand it going forward:
-- More learning model types: I'd like to expand the available models to include other common machine learning techniques like PCA, SVM, etc...
-- More powerful models: I'd also like to expand existing model functionality to make them more useful. E.g. For the regression model, I'd like it to be possible to apply additional techniques like feature mapping.
+  ObjLearner is still relatively new, and there's a lot I'd like to do expand it going forward:
+  - More learning model types: I'd like to expand the available models to include other common machine learning techniques like PCA, SVM, etc...
+  - More powerful models: I'd also like to expand existing model functionality to make them more useful. E.g. For the regression model, I'd like it to be possible to apply additional techniques like feature mapping.
