@@ -44,17 +44,17 @@ You can run a normalized linear regression by running `ObjectLearning#runLinearR
   );
 ```
 `runLinearReg` accepts the following parameters:
-- An array of objects or a JavaScript objects
+- An array of objects or class objects
 - An array attributes that specify the parameters the model should be trained on. Each object in the objects array must have have all of the specified attributes.
 - A target parameter the model should try to predict. All objects in the array must the specified target attribute.
-- An optional options array that can specify:
+- An optional options objects that can specify:
   - `iter`: the number of iterations of gradient descent that should be performed when training the model.
   - `alpha`: The constant alpha that should be used for each regression gradient descent step. Use this to tune the model. Values between .1 and .001 are recommended in most scenarios.
 
 Running the regression returns an object with the following attributes:
-- `theta`: an array with the normalized parameters for the models
-- `evalObject`: a function that predicts the target attribute value for an object with the attributes the model was trained on
-- `testObjects`: a function that accepts a test set of objects with the required parameter and target attributes and returns the square error per test object of the model
+- `theta`: an array with the normalized parameters for the trained model. Note that the first element in the array is the constant parameter, and the second element in the array will be the parameter for the first attribute and so on.
+- `evalObject`: a function that predicts the value of the target attribute value for a new object. The new object must have all of the attributes that were used to train the model.
+- `testObjects`: a function that accepts a test set of objects with the required parameter and target attributes and returns the square error per test object of the model. This is useful for evaluating the accuracy of the model on data that wasn't used to train the model.
 - `cost`: The square error per object for the model
 
 Continuing from the example above:
@@ -170,7 +170,7 @@ You can run normalized k-means clustering on a set of objects by running `Object
 `runKClustering` accepts the following parameters:
 - An array of objects or class objects
 - An array of attributes containing the parameters for the clustering
-- An optional options hash with the following arguments:
+- An optional options object with the following arguments:
   - `maxIter`: The max number of times to run through the clustering analysis
   - `groups`: The number groups to cluster the objects into
   - `groupNames`: Names for the groups. Groups are sorted low to high according to total of the group average for the normalized model parameters. If no names are specified, the group names will default to 0, 1, 2...
