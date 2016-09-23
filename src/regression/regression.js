@@ -105,7 +105,7 @@ const computeLinearCost = (X, y, theta) => {
 
   diff = MatrixOps.elementTransform(diff, el => Math.pow(el, 2));
 
-  return (diff.reduce((pre, curr) => pre + curr[0], 0))/(2 * y.length);
+  return (diff.reduce((pre, curr) => pre + curr[0], 0))/(y.length);
 };
 
 const gradientDescentLogistic = (X, y, theta, alpha, type) => {

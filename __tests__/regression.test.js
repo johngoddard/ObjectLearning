@@ -11,7 +11,7 @@ test('computes cost when cost is 0', () => {
 });
 
 test('computes cost when cost is not 0', () => {
-  expect(regressor.computeLinearCost([[1,2],[3,4]], [[5],[11]], [[1],[1]])).toEqual(5);
+  expect(regressor.computeLinearCost([[1,2],[3,4]], [[5],[11]], [[1],[1]])).toEqual(10);
 });
 
 

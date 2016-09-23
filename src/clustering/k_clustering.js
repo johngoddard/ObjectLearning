@@ -4,13 +4,13 @@ const regressionHelpers = require('../regression/regression_helpers.js');
 
 const kclustering = (objects, params, opts) => {
 
-  const defaultOpts = {maxIter: 100, centroids: 3, groupNames: null};
+  const defaultOpts = {maxIter: 100, groups: 3, groupNames: null};
   let options = Object.assign({}, defaultOpts, opts);
 
   let normalizedInfo = regressionHelpers.getXFromParams(objects, params, false);
   let X = normalizedInfo.normalized;
 
-  let centroids = _initializeCentroids(X, options.centroids);
+  let centroids = _initializeCentroids(X, options.groups);
   let centMap;
 
   let i = 0;

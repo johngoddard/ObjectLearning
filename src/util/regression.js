@@ -23,6 +23,7 @@ const regression = (objects, params, target, type, options) => {
   while( i <= opts.iter ){
     theta = stepFunction(X, y, theta, opts.alpha);
     i++;
+    console.log(costFunction(X,y,theta));
   }
 
 
@@ -72,29 +73,33 @@ const _makeEvalFunction = (theta, normalizedData, params, type) => {
 };
 
 const computeLogisticCost = (X, y, theta) => {
+  console.log('logistic');
   let h = MatrixOps.multiply(X, theta);
   h = MatrixOps.elementTransform(h, el => _sigmoid(el))
   let yTrans = MatrixOps.transpose(y)[0];
   let hTrans = MatrixOps.transpose(h)[0];
 
-  costs = hTrans.map((predictedVal, idx) => {
+  let costs = hTrans.map((predictedVal, idx) => {
     return (-yTrans[idx]*Math.log(hTrans[idx]) - (1 - yTrans[idx])*Math.log(1 - hTrans[idx]));
   });
 
   return (1/y.length)*costs.reduce((pre, curr) => pre + curr, 0);
-}
+};
 
 const _sigmoid = z => {
   return (1/(1 + Math.exp(-z)));
 };
 
 const computeLinearCost = (X, y, theta) => {
+  console.log(linear);
   let h = MatrixOps.multiply(X, theta);
   let diff = MatrixOps.subtract(h, y);
 
+  console.log(h);
+  console.log(X);
   diff = MatrixOps.elementTransform(diff, el => Math.pow(el, 2));
 
-  return (diff.reduce((pre, curr) => pre + curr[0], 0))/(2 * y.length);
+  return (diff.reduce((pre, curr) => pre + curr[0], 0))/(2*y.length);
 };
 
 const gradientDescentLogistic = (X, y, theta, alpha, type) => {

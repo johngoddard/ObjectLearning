@@ -49,9 +49,19 @@ let cats2 = [
   new Cat(5, 6, 17)
 ];
 
+let errCats = [
+  new Cat(1, 2, 6),
+  new Cat(2, 3, 7),
+]
+
 
 test('#kclustering correctly clusters objects in 2 dimensions', () => {
-  let clusteredInfo = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, centroids: 3});
+  let clusteredInfo = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3});
+
+  Object.keys(clusteredInfo.groups).forEach(key => {
+    console.log(clusteredInfo.groups[key].groupAvgs);
+    console.log(clusteredInfo.groups[key].objects);
+  });
 
   expect(clusteredInfo.groups[0].objects.length).toBe(3);
   expect(clusteredInfo.groups[1].objects.length).toBe(8);
@@ -59,7 +69,7 @@ test('#kclustering correctly clusters objects in 2 dimensions', () => {
 });
 
 test('#kclustering correctly clusters objects in 2 dimensions, with names', () => {
-  let clusteredInfo = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, centroids: 3, groupNames: ['low', 'med', 'high']});
+  let clusteredInfo = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3, groupNames: ['low', 'med', 'high']});
 
   expect(clusteredInfo.groups['low'].objects.length).toBe(3);
   expect(clusteredInfo.groups['med'].objects.length).toBe(8);
@@ -67,7 +77,7 @@ test('#kclustering correctly clusters objects in 2 dimensions, with names', () =
 });
 
 test('#runKClustering places new objects into the correct group', () => {
-  let clusteredInfo = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, centroids: 3});
+  let clusteredInfo = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3});
   let newStuLow = new Student(200, 1.4, false);
   let newStuHigh = new Student(1400, 3.7, true);
 
@@ -76,7 +86,7 @@ test('#runKClustering places new objects into the correct group', () => {
 });
 
 test('#runKClustering places new objects into the correct group, with names', () => {
-  let clusteredInfo = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, centroids: 3, groupNames: ['low', 'med', 'high']});
+  let clusteredInfo = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3, groupNames: ['low', 'med', 'high']});
   let newStuLow = new Student(200, 1.4, false);
   let newStuHigh = new Student(1400, 3.7, true);
 
@@ -97,16 +107,22 @@ test('Linear regression eval function predicts correctly for a multi dimensional
   expect(Math.round(predictedVal * 10) / 10).toEqual(14.00);
 });
 
+test('Linear regression test correctly returns error of test set', () => {
+  let regressedInfo = ObjLearner.runLinearReg(cats2, ['height', 'weight'], 'fluffiness');
+  let testCost = regressedInfo.testObjects(errCats);
+  expect(Math.round(testCost * 10) / 10).toEqual(1);
+});
+
 test('Linear regression test function works for one dimensional regressions', () => {
   let regressedInfo = ObjLearner.runLinearReg(cats1, 'height', 'fluffiness');
   let testDiff = regressedInfo.testObjects([new Cat(4, 5, 7), new Cat(6, 5, 13)]);
-  expect(Math.round(testDiff * 100) / 100).toEqual(.50);
+  expect(Math.round(testDiff * 100) / 100).toEqual(1);
 });
 
 test('Linear regression test function works for multi dimensional regressions', () => {
   let regressedInfo = ObjLearner.runLinearReg(cats2, ['height', 'weight'], 'fluffiness');
   let testDiff = regressedInfo.testObjects([new Cat(4, 5, 13), new Cat(6, 7, 21)]);
-  expect(Math.round(testDiff * 100) / 100).toEqual(.50);
+  expect(Math.round(testDiff * 100) / 100).toEqual(1);
 });
 
 test("Logistic regression eval function predicts correctly for 1 dimensional regression - high", () => {
