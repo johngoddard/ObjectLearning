@@ -1,6 +1,6 @@
 {
   "name": "object-learning",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Train lightweight machine learning models directly on JavaScript objects",
   "main": "./distribution/index.js",
   "directories": {

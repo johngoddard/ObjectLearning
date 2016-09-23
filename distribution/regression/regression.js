@@ -108,7 +108,6 @@ var _sigmoid = function _sigmoid(z) {
 var computeLinearCost = function computeLinearCost(X, y, theta) {
   var h = MatrixOps.multiply(X, theta);
   var diff = MatrixOps.subtract(h, y);
-
   diff = MatrixOps.elementTransform(diff, function (el) {
     return Math.pow(el, 2);
   });

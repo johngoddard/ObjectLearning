@@ -1,6 +1,6 @@
 # object-learning
 
-object-learning is module that trains lightweight machine learning regression and clustering models directly from JavaScript objects.
+`object-learning` is a module that trains lightweight machine learning regression and clustering models directly from JavaScript objects.
 
 ## Usage
 
