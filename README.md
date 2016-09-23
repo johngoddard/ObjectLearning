@@ -35,7 +35,13 @@ You can run a normalized linear regression by running `ObjLearner#runLinearReg`:
     },
   ]
 
-  const regressionModel = ObjLearner.runLinearReg(cats, ['height', 'weight'], 'fluffiness', {iter: 1000, alpha: .01});
+  const regressionModel =
+  ObjLearner.runLinearReg(
+    cats,
+    ['height', 'weight'],
+    'fluffiness',
+    {iter: 1000, alpha: .01}
+  );
 ```
 `runLinearReg` accepts the following parameters:
 - An array of objects or a JavaScript objects
@@ -98,7 +104,12 @@ You can run a normalized logistic regression by running `ObjLearner#runLogisticR
     {SAT: 720, GPA: 2.8, acceptedToCollege: true}
   ];
 
-  const regressionModel = ObjLearner.runLogisticReg(students, ['SAT', 'GPA'], 'acceptedToCollege');
+  const regressionModel =
+  ObjLearner.runLogisticReg(
+    students,
+    ['SAT', 'GPA'],
+    'acceptedToCollege'
+  );
 ```
 
 The parameters for the `runLogisticReg` are identical to the parameters for `runLinearReg` with one caveat:
@@ -144,7 +155,16 @@ You can run normalized k-means clustering on a set of objects by running `ObjLea
     {SAT: 720, GPA: 2.8}
   ];
 
-  const clusteringModel = ObjLearner.runKClustering(students, ['SAT', 'GPA'], {maxIter: 100, groups: 3, groupNames: ['low', 'med', 'high']})
+  const clusteringModel =
+  ObjLearner.runKClustering(
+    students,
+    ['SAT', 'GPA'],
+    {
+      maxIter: 100,
+      groups: 3,
+      groupNames: ['low', 'med', 'high']
+    }
+  );
 ```
 
 `runKClustering` accepts the following parameters:
